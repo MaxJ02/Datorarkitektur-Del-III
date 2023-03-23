@@ -1,0 +1,24 @@
+a) Varför hålls I-flaggan nollställd medan ett avbrott exekverar?
+
+I-flaggan hålls nollställd under avbrott för att se till att avbrottet exekverar klart och att inget annat avbrott kan exekveras
+samtidigt. Efter avbrottet har kört klart ettställs i-flaggan igen så att globala avbrott återigen kan utföras.
+
+b) Förklara hur monitorering av PCI-avbrott sker på hårdvarunivå och hur/när motsvarande interrupt-flagga ettställs.
+Förutsatt att interrupt-flaggan är ettställd för att indikera ett IRQ, på vilket villkor sker avbrott?
+
+
+
+c) Innan att avbrott genereras, vad sparas för att programmet ska kunna fortsätta som vanligt efter att avbrottet har
+slutförts?
+
+Återhoppsaddressen.
+
+
+d) Vad händer med interrupt-flaggan via hårdvaran när motsvarande avbrottsrutin anropas, som medför att vi normalt
+inte behöver tänka på denna i AVR assembler? Vad hade hänt om detta inte hade skett, vilket exempelvis är fallet för
+PIC-processorer? Vad hade vi varit tvungna att göra då?
+
+
+
+e) Hur återställs hårdvaran efter ett avbrott så att programmet exekverar som det skulle göra om föregående avbrott
+inte hade skett?
