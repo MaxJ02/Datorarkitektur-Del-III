@@ -6,19 +6,24 @@ samtidigt. Efter avbrottet har kört klart ettställs i-flaggan igen så att glo
 b) Förklara hur monitorering av PCI-avbrott sker på hårdvarunivå och hur/när motsvarande interrupt-flagga ettställs.
 Förutsatt att interrupt-flaggan är ettställd för att indikera ett IRQ, på vilket villkor sker avbrott?
 
-
+Sammanfattningsvis sker monitorering av PCI-avbrott på hårdvarunivå, där PCI-enheten hävdar sin IRQ och 
+PIC-chippet hanterar avbrotten. Motsvarande avbrottsflagga sätts när IRQ detekteras och avbrottet aktiveras. 
+Ett avbrott inträffar när CPU:n upptäcker att motsvarande avbrottsflagga är satt och hoppar till lämplig ISR.
 
 c) Innan att avbrott genereras, vad sparas för att programmet ska kunna fortsätta som vanligt efter att avbrottet har
 slutförts?
 
-Återhoppsaddressen.
+Innan ett avbrott genereras sparas processorns tillstånd samt det program som körs för närvarande. CPU:n sparar automatiskt den aktuella programräknaren (PC) och processorstatusregistret (PSR) i stacken, och ISR:n kan spara fler register och information i stacken om det skulle behövas. När avbrottet har hanterats återställs det sparade CPU- och programtillståndet från stacken, och det återgår till det avbrutna programmet vid den punkt där det avbröts.
 
 
 d) Vad händer med interrupt-flaggan via hårdvaran när motsvarande avbrottsrutin anropas, som medför att vi normalt
 inte behöver tänka på denna i AVR assembler? Vad hade hänt om detta inte hade skett, vilket exempelvis är fallet för
 PIC-processorer? Vad hade vi varit tvungna att göra då?
 
-
+I AVR-mikrokontroller "arkitektur" rensas hardware interrupts-flaggan som motsvarar ett avbrott automatiskt när motsvarande avbrottsrutin anropas, så man 
+behöver inte cleara den manuellt i ISR. I andra mikrokontrollerarkitekturer som PIC skulle vi dock behöva cleara flaggan manuellt i ISR för att förhindra en oändlig loop.
 
 e) Hur återställs hårdvaran efter ett avbrott så att programmet exekverar som det skulle göra om föregående avbrott
 inte hade skett?
+
+Efter att ett avbrott inträffar och dess ISR har slutfört exekveringen i mikrokontrollern, återställs hårdvaran automatiskt till tillståndet före avbrottet. Detta involverar att återställa CPU-registren till deras pre-avbrottsvärden, rensa hårdvaruavbrottsflaggan och återaktivera avbrott om de nu var inaktiverade. Detta säkerställer att programkörningen återupptas från den plats där den avbröts och fortsätter som om avbrottet inte hade inträffat.
