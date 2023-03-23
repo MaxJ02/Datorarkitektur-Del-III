@@ -1,0 +1,20 @@
+Skapa ett assemblerprogram innehållande seriell överföring, där en lysdiod ansluten till pin 8 (PORTB0) togglas via
+nedtryckning av en tryckknapp ansluten till pin 13 (PORTB5). Vid start ska följande instruktioner skrivas ut i terminalen:
+
+Press the button connected to pin 13 to toggle the led connected to pin 8!
+
+Vid varje nedtryckning ska ett meddelande om att tryckknappen är nedtryckt samt lysdiodens nya tillstånd skrivas ut
+såsom nedan:
+
+1 - Knappen trycks ned och lysdioden tänds:
+Button is pressed!
+Led on!
+2 - Knappen trycks ned igen och lysdioden släcks:
+Button is pressed!
+Led off!
+3 - Knappen trycks ned ännu en gång och lysdioden tänds igen:
+Button is pressed!
+Led on!
+För att undvika multipla avbrott på grund av kontaktstudsar ska debouncing (avstudsning) implementeras i mjukvara
+genom att PCI-avbrott på I/O-port B stängs av en viss tid efter att avbrottsrutinen anropas, exempelvis 300 ms via en
+timerkrets.
